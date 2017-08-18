@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
-import { MemresService } from '../../services/membre/membre.service';
-import './membre.entity';
+import { MembresService } from '../../services/membre/membre.service';
 
+import '../../Model/membre.entity';
 
 @Component({
   moduleId: module.id,
-  selector: 'indexMembre',
+  selector: 'app-index-membre',
   templateUrl :'index.component.html',
-  providers : [MemresService]
+  providers : [MembresService]
 })
 export class IndexMembreComponent  { 
 
 	membres : Membre[]; 
 	membre : Membre;
 
-	constructor(private membresService : MemresService){
+	constructor(private membresService : MembresService){
 
 		this.membresService.getMembres().subscribe(membres => {
 			this.membres = membres;

@@ -1,0 +1,42 @@
+
+  <div class="widget-box">
+    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+      <h5>Personal-info</h5>
+    </div>
+    <div class="widget-content nopadding">
+    <form class="form-horizontal" (submit)="ajouterMembre(name.value,profil.value,age.value,stars.value)">
+        <div class="control-group">
+          <label class="control-label">Name :</label>
+          <div class="controls">
+            <input type="text" class="span11" #name/>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Profile :</label>
+          <div class="controls">
+            <select class="span11" #profil>
+              <option value="" selected="selected">---   ---</option>
+              <option value="JUNIOR">JUNIOR</option>
+              <option value="SENIOR">SENIOR</option>
+              <option value="MASTER">MASTER</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Age</label>
+          <div class="controls">
+            <input type="text" class="span11" #age/>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Stars :</label>
+          <div class="controls">
+            <input type="text" class="span11" #stars/>
+          </div>
+        </div>
+        <div class="form-actions">
+          <input type="submit" class="btn btn-warning span12">
+        </div>
+      </form>
+    </div>
+  </div> 

@@ -3,7 +3,7 @@ import {Http, Response, Headers, RequestOptions} 	from '@angular/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class MemresService {
+export class MembresService {
 	
 	constructor(private http: Http){
 		console.log('MembresService initialized ....');
