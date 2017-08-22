@@ -1,4 +1,5 @@
-import {Component} from "@angular/core";
+import { Component, ViewChild} from "@angular/core";
+import { NgForm } from "@angular/forms";
 import { MembresService } from '../../services/membre/membre.service';
 
 import '../../Model/membre.entity';
@@ -15,15 +16,18 @@ export class CreerMembreComponent {
   membre : Membre;
   membres : Membre[];
 
+  @ViewChild('membreForm') membreForm: NgForm;
+
   constructor(private membresService : MembresService){
 
-    /*this.membresService.getMembres().subscribe(membres => {
+    this.membresService.getMembres().subscribe(membres => {
       this.membres = membres;
-    });*/
+    });
   }
-
-
+  
   ajouterMembre(pName:string,pProfil:string,pAge:number,pStars:number){
+
+    if(this.membreForm.valid){
 
     this.membre = {
       id: "",
@@ -33,24 +37,19 @@ export class CreerMembreComponent {
       stars : pStars
     };
     
-     /*this.membresService.postMembre(this.membre)
-        .then(()=>this.router.navigate(['/membres']));
-
-    /* this.membresService.postMembre(this.membre).subscribe(
-            response =>  {
-        if(response.error) { 
-          alert('22222222222');
-          alert(`The user could not be added, server Error.`);
-                } else {
-                  alert('33333333333');
-          alert(`The user has been added.`);
-                }
-            },
-            error=> {
-               alert('4444444444444');
-        alert(`The user could not be added error , server Error.`);
-             }
-        ); */
+     this.membresService.saveMembre(this.membre)
+        .then((data) => {
+          alert( 'add successefully');
+          this.membresService.getMembres().subscribe(membres => {
+            this.membres = membres;
+          });
+          })
+        .catch( error => {
+          alert( 'component : Impossible d enregistrer le membre ');
+          throw error;
+        } );
+      }
+    
 
   }
 

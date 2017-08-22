@@ -1,5 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} 	from '@angular/http';
+import { Observable } from 'rxjs';
+
+import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -7,11 +10,10 @@ export class MembresService {
 	
 	constructor(private http: Http){
 		console.log('MembresService initialized ....');
-		console.log(this.http.get('http://angular-symfony.dev/app_dev.php/api/membres').map(res => res.json()))
 	}
 
-	getMembres(){
-		return this.http.get('http://angular-symfony.dev/app_dev.php/api/membres').map(res => res.json());
+	getMembres() : Observable<Array<Membre>>{
+		return this.http.get('http://angular-symfony.dev/app_dev.php/api/membres').map(res => res.json() as Array<Membre>);
 	}
 
 	getMembre(idMembre: number){
@@ -22,26 +24,39 @@ export class MembresService {
 		return this.http.delete('http://angular-symfony.dev/app_dev.php/api/membresid/delete').map(res => res.json());
 	}
 
-	postMembre(membre: Membre){
-
-		let body = JSON.stringify(membre);
-        let headers = new Headers({ 'Content-Type': 'application/json', async: false });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.post('http://angular-symfony.dev/app_dev.php/api/membres/ajouter', body, options)
-            .map(res => {
-                // If request fails, throw an Error that will be caught
-                if (res.status < 200 || res.status >= 300) {
-                    throw new Error('This request has failed ' + res.status);
-                }
-                // If everything went fine, return the response
-                else {
-                    return res.json();
-                }
-            });
+	saveMembre(membre: Membre): Promise<Membre>{
+	    
+	    let headers = new Headers({ 'Content-Type': 'application/json' });
+	    return this.http
+	      .post( 'http://angular-symfony.dev/app_dev.php/api/membres/add', 
+	            JSON.stringify(this.membreSerializer(membre)), { headers: headers } )
+	      .toPromise()
+	      .then( res => res.json() as Membre )
+	      .catch( error => {
+	        console.error( 'Impossible d enregistrer l actualite ', error );
+	        alert( 'service : Impossible d enregistrer l actualite ' );
+	        throw error;
+	      } );
 	}
 
 	updateMembre(){
 		return this.http.delete('http://angular-symfony.dev/app_dev.php/api/membres/id/update').map(res => res.json());
 	}
 
+
+	public membreSerializer(membre: Membre) {
+		
+		const membreDetailDTO = {};
+
+		membreDetailDTO['id'] = membre.id;
+		membreDetailDTO['name'] = membre.name;
+		membreDetailDTO['profil'] = membre.profil;
+		membreDetailDTO['age'] = membre.age;
+		membreDetailDTO['stars'] = membre.stars;
+
+		const membreDTO = {};
+		membreDTO['membre'] = membreDetailDTO;
+
+		return membreDTO;
+	} 
 }

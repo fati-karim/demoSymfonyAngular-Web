@@ -5,11 +5,11 @@ import '../../Model/membre.entity';
 
 @Component({
   moduleId: module.id,
-  selector: 'app-membre',
-  templateUrl :'membre.component.html',
+  selector: 'app-index-membre',
+  templateUrl :'index-membre.component.html',
   providers : [MembresService]
 })
-export class MembreComponent implements OnInit { 
+export class IndexMembreComponent implements OnInit { 
 
 	membres : Membre[]; 
 	membre : Membre;
@@ -28,3 +28,7 @@ export class MembreComponent implements OnInit {
 	    });
   	}
 }
+
+
+
+
