@@ -1,2 +1,130 @@
-<div class="span7"><app-index-membre></app-index-membre></div>
-<div class="span5"><app-creer-membre></app-creer-membre></div>
+<div class="span7">
+	<div class="widget-box">
+	  <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+	    <h5>Liste des membre</h5>
+	  </div>
+	  <div class="widget-content nopadding">
+	    <table class="table table-bordered data-table">
+	      <thead>
+	        <tr>
+	          <th>Name</th>
+	          <th>Profile</th>
+	          <th>Age</th>
+	          <th>Stars</th>
+	          <th>Actions</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        <tr class="gradeX" *ngFor="let membreLocal of membres">
+	          <td>{{ membreLocal.name }}</td>
+	          <td>{{ membreLocal.profil }}</td>
+	          <td>{{ membreLocal.age }}</td>
+	          <td>{{ membreLocal.stars }}</td>
+	          <td class="center">
+	            <a class="btn btn-mini" title="detail" href="#"><i class="icon-list-alt"></i></a>
+	            <a class="btn btn-primary btn-mini" title="modifier" (click)="recupererMembre(membreLocal.id)"><i class="icon-edit"></i></a>
+	            <!--<a class="btn btn-danger btn-mini" title="supprimer" (click)="deleteMembre({{ membreLocal.id }})"><i class="icon-trash"></i></a> -->
+	          </td>
+	        </tr>
+	      </tbody>
+	    </table>
+	  </div>
+	</div>
+</div>
+<div class="span5">
+  <div class="widget-box">
+    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+      <h5>Ajouter un membre</h5>
+    </div>
+    <div class="widget-content nopadding">
+    <form class="form-horizontal" #membreForm="ngForm">
+        <div class="control-group">
+          <label class="control-label">Name :</label>
+          <div class="controls">
+            <input type="text" class="span11" #name/>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Profile :</label>
+          <div class="controls">
+            <select class="span11" #profil>
+              <option value="" selected="selected">---   ---</option>
+              <option value="JUNIOR">JUNIOR</option>
+              <option value="SENIOR">SENIOR</option>
+              <option value="MASTER">MASTER</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Age :</label>
+          <div class="controls">
+            <input type="text" class="span11" #age/>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Stars :</label>
+          <div class="controls">
+            <input type="text" class="span11" #stars/>
+          </div>
+        </div>
+        <div class="form-actions">
+          <input type="submit" class="btn btn-warning span12" (click)="ajouterMembre(name.value,profil.value,age.value,stars.value)">
+        </div>
+      </form>
+    </div>
+  </div> 
+
+  <div class="widget-box">
+    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+      <h5>Modifier le membre</h5>
+    </div>
+    <div class="widget-content nopadding">
+    <form class="form-horizontal" #membreForm="ngForm">
+    	<input type="hidden" value="{{ membre.id }}"  #id/>
+        <div class="control-group">
+          <label class="control-label">Name :</label>
+          <div class="controls">
+            <input type="text" class="span11" value="{{ membre.name }}"  #name/>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Profile :</label>
+          <div class="controls">
+            <select class="span11" #profil value="{{ membre.profil }}" >
+              <option value="" selected="selected">---   ---</option>
+              <option value="JUNIOR">JUNIOR</option>
+              <option value="SENIOR">SENIOR</option>
+              <option value="MASTER">MASTER</option>
+            </select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Age :</label>
+          <div class="controls">
+            <input type="text" class="span11" value="{{ membre.age }}"  #age/>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Stars :</label>
+          <div class="controls">
+            <input type="text" class="span11" value="{{ membre.stars }}" #stars/>
+          </div>
+        </div>
+        <div class="form-actions">
+          <input type="submit" class="btn btn-warning span12" (click)="modifierMembre(id.value,name.value,profil.value,age.value,stars.value)">
+        </div>
+      </form>
+    </div>
+  </div> 
+</div>
+
+<div id="myModal2" class="modal hide">
+  <div class="modal-header">
+    <button data-dismiss="modal" class="close" type="button">×</button>
+    <h3>Alert modal</h3>
+  </div>
+  <div class="modal-body">
+    <p><img src="images/gallery/imgbox3.jpg"/></p>
+  </div>
+  <div class="modal-footer"><a data-dismiss="modal" class="btn btn-inverse" href="#">Cancel</a> </div>
+</div>

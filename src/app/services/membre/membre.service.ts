@@ -12,12 +12,19 @@ export class MembresService {
 		console.log('MembresService initialized ....');
 	}
 
-	getMembres() : Observable<Array<Membre>>{
+	getMembres(){
 		return this.http.get('http://angular-symfony.dev/app_dev.php/api/membres').map(res => res.json() as Array<Membre>);
 	}
 
-	getMembre(idMembre: number){
-		return this.http.get('http://angular-symfony.dev/app_dev.php/api/membres/'+idMembre).map(res => res.json());
+	getMembre(idMembre: string): Promise<Membre>{
+		return this.http.get('http://angular-symfony.dev/app_dev.php/api/membres/'+idMembre)
+		  .toPromise()
+	      .then( res => res.json() as Membre )
+	      .catch( error => {
+	        console.error( 'Impossible d enregistrer l actualite ', error );
+	        alert( 'service : Impossible d enregistrer l actualite ' );
+	        throw error;
+	      } );;
 	}
 
 	deleteMembre(){
@@ -33,14 +40,25 @@ export class MembresService {
 	      .toPromise()
 	      .then( res => res.json() as Membre )
 	      .catch( error => {
-	        console.error( 'Impossible d enregistrer l actualite ', error );
-	        alert( 'service : Impossible d enregistrer l actualite ' );
+	        console.error( 'Impossible d enregistrer le membre ', error );
+	        alert( 'service : Impossible d enregistrer le membre ' );
 	        throw error;
 	      } );
 	}
 
-	updateMembre(){
-		return this.http.delete('http://angular-symfony.dev/app_dev.php/api/membres/id/update').map(res => res.json());
+	updateMembre(membre: Membre): Promise<Membre>{
+		
+		let headers = new Headers({ 'Content-Type': 'application/json' });
+	    return this.http
+	      .post( 'http://angular-symfony.dev/app_dev.php/api/membres/update', 
+	            JSON.stringify(this.membreSerializer(membre)), { headers: headers } )
+	      .toPromise()
+	      .then( res => res.json() as Membre )
+	      .catch( error => {
+	        console.error( 'Impossible de maj le membre ', error );
+	        alert( 'service : Impossible de maj le membre ' );
+	        throw error;
+	      } );
 	}
 
 
